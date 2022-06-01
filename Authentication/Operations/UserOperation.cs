@@ -13,13 +13,13 @@ namespace Authentication.Operations
     public class UserOperation : IUserOperation
     {
 
-        private readonly UserManager<AppUser> _UserManager;
-        private readonly SignInManager<AppUser> _SignInManager;
+        private readonly UserManager<User> _UserManager;
+        private readonly SignInManager<User> _SignInManager;
         private readonly IMapper _Map;
 
         public UserOperation(
-            UserManager<AppUser> Usermanager,
-            SignInManager<AppUser> Signinmanager,
+            UserManager<User> Usermanager,
+            SignInManager<User> Signinmanager,
             IMapper Map
             )
         {
@@ -37,7 +37,7 @@ namespace Authentication.Operations
 
                 if (userNew == null)
                 {
-                    userNew = new AppUser()
+                    userNew = new User()
                     {
                         UserName = user.UserName,
                         Email = user.Email,
@@ -90,11 +90,11 @@ namespace Authentication.Operations
 
 
         }
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {
-                if (id == null) throw new Exception("id is 0");
+                if (id == 0) throw new Exception("id is 0");
 
                 var user = _UserManager.Users.FirstOrDefault(_id => _id.Id == id);
 
@@ -116,11 +116,11 @@ namespace Authentication.Operations
             }
         }
 
-        public AppUser FindById(string id)
+        public User FindById(int id)
         {
              try
             {
-                if (id == null) throw new Exception("id is 0");
+                if (id == 0) throw new Exception("id is 0");
 
                 var user = _UserManager.Users.FirstOrDefault(_id => _id.Id == id);
 
@@ -137,54 +137,54 @@ namespace Authentication.Operations
             }
         }
 
-        public async Task<AppUser> FindByNameAsync(string normalizedUserName)
+        public async Task<User> FindByNameAsync(string normalizedUserName)
         {
             var user = await _UserManager.FindByNameAsync(normalizedUserName);
 
             return user;
         }
 
-        public Task<string> GetNormalizedUserNameAsync(AppUser user)
+        public Task<string> GetNormalizedUserNameAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetPasswordHashAsync(AppUser user)
+        public Task<string> GetPasswordHashAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetUserIdAsync(AppUser user)
+        public Task<string> GetUserIdAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetUserNameAsync(AppUser user)
+        public Task<string> GetUserNameAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> HasPasswordAsync(AppUser user)
+        public Task<bool> HasPasswordAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetNormalizedUserNameAsync(AppUser user, string normalizedName)
+        public Task SetNormalizedUserNameAsync(User user, string normalizedName)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetPasswordHashAsync(AppUser user, string passwordHash)
+        public Task SetPasswordHashAsync(User user, string passwordHash)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetUserNameAsync(AppUser user, string userName)
+        public Task SetUserNameAsync(User user, string userName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> UpdateAsync(AppUser user)
+        public Task<IdentityResult> UpdateAsync(User user)
         {
             throw new NotImplementedException();
         }

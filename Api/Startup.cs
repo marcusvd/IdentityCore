@@ -50,7 +50,7 @@ namespace IdentityCore
             services.AddCors();
 
 
-            services.AddIdentity<AppUser, IdentityRole>(opt =>
+            services.AddIdentity<User, IdentityRole>(opt =>
             {
                 //lockout
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);

@@ -11,17 +11,17 @@ namespace Authentication.Contract
     {
         Task<IdentityResult> CreateAsync(RegisterUserDto user);
         Task<SignInResult> LoginAsync(LoginDto login);
-        Task<bool> DeleteAsync(string id);
-        AppUser FindById(string id);
-        Task<AppUser> FindByNameAsync(string normalizedUserName);
-        Task<string> GetNormalizedUserNameAsync(AppUser user);
-        Task<string> GetUserIdAsync(AppUser user);
-        Task<string> GetUserNameAsync(AppUser user);
-        Task SetUserNameAsync(AppUser user, string userName);
-        Task<IdentityResult> UpdateAsync(AppUser user);
-        Task SetNormalizedUserNameAsync(AppUser user, string normalizedName);
-        Task<string> GetPasswordHashAsync(AppUser user);
-        Task<bool> HasPasswordAsync(AppUser user);
-        Task SetPasswordHashAsync(AppUser user, string passwordHash);
+        Task<bool> DeleteAsync(int id);
+        User FindById(int id);
+        Task<User> FindByNameAsync(string normalizedUserName);
+        Task<string> GetNormalizedUserNameAsync(User user);
+        Task<string> GetUserIdAsync(User user);
+        Task<string> GetUserNameAsync(User user);
+        Task SetUserNameAsync(User user, string userName);
+        Task<IdentityResult> UpdateAsync(User user);
+        Task SetNormalizedUserNameAsync(User user, string normalizedName);
+        Task<string> GetPasswordHashAsync(User user);
+        Task<bool> HasPasswordAsync(User user);
+        Task SetPasswordHashAsync(User user, string passwordHash);
     }
 }

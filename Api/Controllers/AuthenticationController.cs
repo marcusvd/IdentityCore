@@ -72,7 +72,7 @@ namespace IdentityCore.Controllers
 
 
         [HttpPost("Delete/{id}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace IdentityCore.Controllers
         }
         
         [HttpGet("get/{id}")]
-        public AppUser GetById(string id)
+        public User GetById(int id)
         {
             try
             {

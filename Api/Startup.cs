@@ -14,6 +14,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Authentication.Operations;
 using Authentication.Contract;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace IdentityCore
 {
@@ -38,24 +40,16 @@ namespace IdentityCore
 
             services.AddDbContext<IdDbContext>(mySql => mySql.UseMySql(CnxStr, ServerVersion.AutoDetect(CnxStr)));
 
-            //Dependencies By me
-
-            // migration => migration.MigrationsAssembly(MigrationsAssembly)
-            
-            services.AddControllers().AddNewtonsoftJson(opt => {
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
-            services.AddCors();
-
-
-            services.AddIdentity<User, IdentityRole>(opt =>
+            services.AddIdentity<User, Role>(opt =>
             {
                 //lockout
+                //opt.SignIn.RequireConfirmedEmail =true;
+                //opt.Stores.ProtectPersonalData =false;
+                
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 opt.Lockout.MaxFailedAccessAttempts = 5;
                 opt.Lockout.AllowedForNewUsers = true;
+                
                 //password
                 opt.Password.RequireDigit = true;
                 opt.Password.RequiredLength = 3;
@@ -65,7 +59,22 @@ namespace IdentityCore
                 //User
                 opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
                 opt.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<IdDbContext>();
+                
+            }).AddRoles<Role>()
+            .AddEntityFrameworkStores<IdDbContext>()
+            .AddRoleValidator<RoleValidator<Role>>()
+            .AddRoleManager<RoleManager<Role>>()
+            .AddSignInManager<SignInManager<User>>()
+            .AddUserManager<UserManager<User>>()
+            .AddDefaultTokenProviders();
+            
+            services.AddControllers().AddNewtonsoftJson(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
+            services.AddCors();
+
 
            services.ConfigureApplicationCookie(opt =>{
                opt.LoginPath = "";
